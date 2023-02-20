@@ -10,8 +10,14 @@
 </head>
 <body>
     <div class="options">
-        <input class="slider" id="decimal-sep" type="range", min="0", max="1" value="0">
-        <input class="slider" id="thousand-sep" type="range", min="0", max="1" value="0">
+        <div class="slider-section">
+            <p class="p-slider"><code>,</code> as thousand separator</p>
+            <input class="slider" id="thousand-sep" type="range", min="0", max="1" value="0">
+        </div>
+        <div class="slider-section">
+            <p class="p-slider"><code>.</code> as decimal separator</p>
+            <input class="slider" id="decimal-sep" type="range", min="0", max="1" value="0">
+        </div>
     </div>
     <div class="calculator">
         <div class="display" id="display-calc">19 + 21 &#215 5</div>
