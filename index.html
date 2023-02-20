@@ -9,12 +9,15 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-    <input class="slider" id="imperial-metric" type="range", min="0", max="1" value="0">
+    <div class="options">
+        <input class="slider" id="decimal-sep" type="range", min="0", max="1" value="0">
+        <input class="slider" id="thousand-sep" type="range", min="0", max="1" value="0">
+    </div>
     <div class="calculator">
         <div class="display" id="display-calc">19 + 21 &#215 5</div>
         <div class="display-input-section">
             <div class="display" id="display-input">45.271</div>
-            <img srca="./img/delete-icon.svg" alt="icon illustrating deletion functionality to the user"/>
+            <img id="delete-icon" src="./img/delete-icon.svg" alt="icon illustrating deletion functionality to the user"/>
         </div>
         <div class="btn-row-one">
             <div class="ballons miscellaneous" id="clear-all">AC</div>
