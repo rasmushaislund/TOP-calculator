@@ -1,8 +1,56 @@
 * {
     box-sizing: border-box;
     font-family: Helvetica, Arial, sans-serif;
+    color: rgba(255, 255, 255, 1);
 }
 
 body {
     background-color: rgba(0, 0, 0, 1);
+    margin: 2rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    max-width: 10rem;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgb(255, 255, 255, .3);
+    outline: none;
+    -webkit-transition: .2s;
+    width: 3rem;
+    min-height: 1.5rem;
+    padding: .1rem;
+    border-radius: 3.125rem;
+    margin-bottom: .7rem;
+    cursor: pointer;
+}
+
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 1.5rem; 
+    height: 1.5rem;
+    border-radius: 3.125rem; 
+    background: rgba(255, 255, 255, 1); 
+    cursor: pointer; 
+  }
+  
+  .slider::-moz-range-thumb { /*for mozilla browser */
+    width: 1.5rem; 
+    height: 1.5rem;
+    border-radius: 3.125rem;  
+    background: rgba(255, 255, 255, 1); 
+    cursor: pointer; 
+  }
+
+#delete-icon {
+    width: 2.5rem;
+    height: 1.5rem;
+    border: .1rem solid rgba(255, 255, 255, 1);
+    border-radius: .3rem;
 }
