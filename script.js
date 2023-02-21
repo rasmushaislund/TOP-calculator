@@ -7,6 +7,9 @@ const sliderDecimalSeparator = document.querySelector("#decimal-sep");
 
 const deleteIcon = document.querySelector("#delete-icon");
 
+const calculationDisplay = document.querySelector("#display-calc");
+const inputDisplay = document.querySelector("#display-input");
+
 const clearAll = document.querySelector("#clear-all");
 const plusMinus = document.querySelector("#plus-minus");
 const percent = document.querySelector("#percent");
@@ -35,10 +38,11 @@ const decimal = document.querySelector("#decimal");
 // let valueOne = inputNumbers[inputNumbers.length-2]
 // let valueTwo = inputNumbers[inputNumbers.length-1]
 // let latestOperator;
+let displayInput = "";
 // let inputNumbers = [];
 // let displayCalc = []
 // let result;
-// let decimalEntered = false;
+let decimalEntered = false;
 // let commaAsThousandSeparator = false;
 // let dotAsDecimalSeparator = false;
 
@@ -49,9 +53,9 @@ let enableThousandSeparator = () => {
     if (sliderThousandSeparator.value === "1") {
         sliderThousandSeparator.style.backgroundColor = "#17C150";
     } else {
-        sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)"
+        sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
     }
-}
+};
 
 sliderThousandSeparator.addEventListener("change", enableThousandSeparator);
 
@@ -63,9 +67,46 @@ let enableDecimalSeparator = () => {
         sliderDecimalSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
         decimal.textContent = ","
     }
-}
+};
 
 sliderDecimalSeparator.addEventListener("change" ,enableDecimalSeparator);
+
+
+// POPULATE DISPLAY
+
+let populateDisplay = (e) => {
+    let target = e.target;
+
+    displayInput += target.textContent;
+    console.log(displayInput);
+    inputDisplay.textContent = displayInput;
+
+    if (displayInput.startsWith("0")) {
+        zero.style.pointerEvents = "none";
+    }
+
+    if (displayInput.includes("," || ".")) {
+        decimal.style.pointerEvents = "none";
+    }
+};
+
+
+
+
+one.addEventListener("click", populateDisplay);
+two.addEventListener("click", populateDisplay);
+three.addEventListener("click", populateDisplay);
+four.addEventListener("click", populateDisplay);
+five.addEventListener("click", populateDisplay);
+six.addEventListener("click", populateDisplay);
+seven.addEventListener("click", populateDisplay);
+eight.addEventListener("click", populateDisplay);
+nine.addEventListener("click", populateDisplay);
+zero.addEventListener("click", populateDisplay);
+decimal.addEventListener("click", populateDisplay);
+
+
+// DELETE DIGITS FROM DISPLAY
 
 
 // MATH OPERATIONS
