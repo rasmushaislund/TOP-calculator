@@ -32,19 +32,40 @@ const decimal = document.querySelector("#decimal");
 
 // NON-DOM VARIABLES
 
-let valueOne = inputNumbers[inputNumbers.length-2]
-let valueTwo = inputNumbers[inputNumbers.length-1]
-let latestOperator;
-let inputNumbers = [];
-let displayCalc = []
-let result;
-let decimalEntered = false;
-let commaAsThousandSeparator = false;
-let dotAsDecimalSeparator = false;
+// let valueOne = inputNumbers[inputNumbers.length-2]
+// let valueTwo = inputNumbers[inputNumbers.length-1]
+// let latestOperator;
+// let inputNumbers = [];
+// let displayCalc = []
+// let result;
+// let decimalEntered = false;
+// let commaAsThousandSeparator = false;
+// let dotAsDecimalSeparator = false;
 
 
-// SLIDER FEATURES
+// ENABLE SLIDER/RANGE FEATURES
 
+let enableThousandSeparator = () => {
+    if (sliderThousandSeparator.value === "1") {
+        sliderThousandSeparator.style.backgroundColor = "#17C150";
+    } else {
+        sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)"
+    }
+}
+
+sliderThousandSeparator.addEventListener("change", enableThousandSeparator);
+
+let enableDecimalSeparator = () => {
+    if (sliderDecimalSeparator.value === "1") {
+        sliderDecimalSeparator.style.backgroundColor = "#17C150";
+        decimal.textContent = "."
+    } else {
+        sliderDecimalSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
+        decimal.textContent = ","
+    }
+}
+
+sliderDecimalSeparator.addEventListener("change" ,enableDecimalSeparator);
 
 
 // MATH OPERATIONS
