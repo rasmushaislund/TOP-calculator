@@ -106,7 +106,7 @@ code {
 .display-top {
     padding: 0rem .5rem 0rem 0rem;
     margin: 0rem 2.45rem .5rem 0rem;
-
+    opacity: .7;
 }
 
 .display-bottom {
@@ -149,6 +149,7 @@ code {
 
 .ballons:hover {
     cursor: pointer;
+    opacity: .85;
 }
 
 .miscellaneous {
