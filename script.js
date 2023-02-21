@@ -2,7 +2,7 @@
 
 // DOM VARIABLES
 
-const sliderThousandSeparator = document.querySelector("#thousand-sep");
+// const sliderThousandSeparator = document.querySelector("#thousand-sep");
 const sliderDecimalSeparator = document.querySelector("#decimal-sep");
 
 const deleteIcon = document.querySelector("#delete-icon");
@@ -43,29 +43,41 @@ let displayInput = "";
 // let displayCalc = []
 // let result;
 let decimalEntered = false;
-// let commaAsThousandSeparator = false;
-// let dotAsDecimalSeparator = false;
+let commaAsThousandSeparator = false;
+let dotAsDecimalSeparator = false;
 
 
 // ENABLE SLIDER/RANGE FEATURES
 
-let enableThousandSeparator = () => {
-    if (sliderThousandSeparator.value === "1") {
-        sliderThousandSeparator.style.backgroundColor = "#17C150";
-    } else {
-        sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
-    }
-};
+// let enableThousandSeparator = () => {
+//     if (sliderThousandSeparator.value === "1") {
+//         sliderThousandSeparator.style.backgroundColor = "#17C150";
+//     } else {
+//         sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
+//     }
+// };
 
-sliderThousandSeparator.addEventListener("change", enableThousandSeparator);
+// sliderThousandSeparator.addEventListener("change", enableThousandSeparator);
 
 let enableDecimalSeparator = () => {
     if (sliderDecimalSeparator.value === "1") {
         sliderDecimalSeparator.style.backgroundColor = "#17C150";
-        decimal.textContent = "."
+        decimal.textContent = ".";
+        if (decimalEntered === true) {
+            displayInput = displayInput.replace(",", ".");
+        }
+        inputDisplay.textContent = displayInput;
+        commaAsThousandSeparator = true;
+        dotAsDecimalSeparator = true;
     } else {
         sliderDecimalSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
-        decimal.textContent = ","
+        decimal.textContent = ",";
+        if (decimalEntered === true) {
+            displayInput = displayInput.replace(".", ",");
+        }
+        inputDisplay.textContent = displayInput;
+        commaAsThousandSeparator = false;
+        dotAsDecimalSeparator = false;
     }
 };
 
@@ -79,19 +91,29 @@ let populateDisplay = (e) => {
 
     displayInput += target.textContent;
     console.log(displayInput);
-    inputDisplay.textContent = displayInput;
-
-    if (displayInput.startsWith("0")) {
+    
+    if (displayInput.startsWith("," || ".")) {  // Inserts leading zero if first input is "." or ","
+        displayInput = "0" + displayInput;
+    }
+    
+    if (displayInput.startsWith("0")) {         // Only one leading zero allowed
         zero.style.pointerEvents = "none";
     }
 
-    if (displayInput.includes("," || ".")) {
+    if (displayInput.includes("," || ".")) {    // Only one decimal allowed
         decimal.style.pointerEvents = "none";
     }
+
+    if (displayInput.length > 8) {
+        inputDisplay.style.fontSize = "1.5rem";
+    }
+
+
+    
+    inputDisplay.textContent = displayInput;
+
+    
 };
-
-
-
 
 one.addEventListener("click", populateDisplay);
 two.addEventListener("click", populateDisplay);
