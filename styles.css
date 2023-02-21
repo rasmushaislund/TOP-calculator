@@ -24,6 +24,22 @@ body {
     margin-top: min(5rem, 2rem);
 }
 
+.github-link {
+    background: linear-gradient(90deg,
+     rgba(214,123,3,1) 10%,
+      rgba(214,141,3,1) 20%,
+       rgba(249,235,22,1) 30%,
+        rgba(109,161,65,1) 40%,
+         rgba(56,196,152,1) 50%,
+          rgba(30,84,190,1) 60%,
+           rgba(149,28,204,1) 70%,
+            rgba(201,37,137,1) 80%,
+             rgba(219,13,83,1) 90%,
+              rgba(255,0,0,1) 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+}
+
 .options {
     min-width: 10rem;
     max-width: 17rem;
