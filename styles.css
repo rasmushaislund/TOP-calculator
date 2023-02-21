@@ -1,6 +1,7 @@
 :root {
     --ballons-min-height-width: 4rem;
     --calculator-width: 18.1rem;
+    --display-bottom-height: 3.3rem;
 }
 
 * {
@@ -120,13 +121,22 @@ code {
 }
 
 .display-top {
+    width: 15rem;
+    text-align: end;
     padding: 0rem .5rem 0rem 0rem;
     margin: 0rem 2.45rem .5rem 0rem;
     opacity: .7;
+    border: .1rem solid pink;
 }
 
 .display-bottom {
+    height: var(--display-bottom-height);
+    width: 15rem;
     font-size: 3rem;
+    text-align: end;
+    line-height: var(--display-bottom-height);
+    overflow: hidden;
+    border: .1rem solid pink;
 }
 
 #delete-icon {
