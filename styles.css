@@ -18,6 +18,7 @@ body {
 
 .para-author, a {
     font-family: 'Caveat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
 }
 
 .para-author {
@@ -126,7 +127,7 @@ code {
     padding: 0rem .5rem 0rem 0rem;
     margin: 0rem 2.45rem .5rem 0rem;
     opacity: .7;
-    border: .1rem solid pink;
+    /* border: .1rem solid pink; */
 }
 
 .display-bottom {
@@ -136,7 +137,7 @@ code {
     text-align: end;
     line-height: var(--display-bottom-height);
     overflow: hidden;
-    border: .1rem solid pink;
+    /* border: .1rem solid pink; */
 }
 
 #delete-icon {
