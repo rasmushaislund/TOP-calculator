@@ -47,9 +47,13 @@ let result;
 let decimalEntered = false;
 let commaAsThousandSeparator = false;
 let dotAsDecimalSeparator = false;
-const displayMaxDigit = 12;
-const numDigitsReduceFontsize = 8;
+const displayMaxDigit = 13;
+const numDigitsReduceFontSize = 8;
+const fontSizeDisplayNormal = "3rem";
+const fontSizeDisplayReduced = "2rem";
 
+
+// ENABLE CHANGE IN USE OF DECIMAL SEPARATOR
 
 let enableDecimalSeparator = () => {
     if (sliderDecimalSeparator.value === "1") {
@@ -103,17 +107,26 @@ let populateDisplay = (e) => {
         decimalEntered = true;
     }
 
-    if (displayInput.length > numDigitsReduceFontsize) {      // Shrinks fontsize in display with large number
-        inputDisplay.style.fontSize = "2rem";
+    if (displayInput.length > numDigitsReduceFontSize) {      // Shrinks fontsize in display with large number
+        inputDisplay.style.fontSize = fontSizeDisplayReduced;
     }
 
     if (displayInput.length >= displayMaxDigit) {
         padDigits.forEach(button => {
-            button.style.pointerEvent = "none";
+            button.style.pointerEvents = "none";
         })
     }
     inputDisplay.textContent = displayInput;
 };
+
+let insertMinusInDisplay = () => {
+    if (displayInput.startsWith("-")) {
+        displayInput = displayInput.slice(1);
+    } else {
+        displayInput = "-" + displayInput;
+    }
+    inputDisplay.textContent = displayInput;
+}
 
 one.addEventListener("click", populateDisplay);
 two.addEventListener("click", populateDisplay);
@@ -126,6 +139,8 @@ eight.addEventListener("click", populateDisplay);
 nine.addEventListener("click", populateDisplay);
 zero.addEventListener("click", populateDisplay);
 decimal.addEventListener("click", populateDisplay);
+
+plusMinus.addEventListener("click", insertMinusInDisplay);
 
 
 // DELETE DIGITS FROM DISPLAY
@@ -143,14 +158,20 @@ let deleteDigit = () => {
         decimalEntered = false;
     }
 
-    if (displayInput.length <= numDigitsReduceFontsize) {        // Increases fontsize in display when deleting down to certain number of digits
-        inputDisplay.style.fontSize = "3rem";
+    if (displayInput.length <= numDigitsReduceFontSize) {        // Increases fontsize in display when deleting down to certain number of digits
+        inputDisplay.style.fontSize = fontSizeDisplayNormal;
+    }
+
+    if (displayInput.length < displayMaxDigit) {
+        padDigits.forEach(button => {
+            button.style.pointerEvents = "auto";
+        })
     }
 
     if (displayInput.length === 0) {                    // Inserts zero in display when display string is empty
         inputDisplay.textContent = 0 + displayInput;
     } else {
-        inputDisplay.textContent = displayInput;
+        inputDisplay.textContent = displayInput;        // Else, shows content of display string
     }
 };
 
@@ -163,6 +184,7 @@ deleteIcon.addEventListener("click", deleteDigit);
 let clearMemory = () => {
     displayInput = "";
     inputDisplay.textContent = 0 + displayInput
+    inputDisplay.style.fontSize = fontSizeDisplayNormal;
     decimalEntered = false;
     decimal.style.pointerEvents = "auto";
     valueOne;
@@ -170,7 +192,7 @@ let clearMemory = () => {
     latestOperator;
     inputNumbers = [];
     displayCalc = [];
-    result;    
+    result;   
 };
 
 clearAll.addEventListener("click", clearMemory);
