@@ -32,52 +32,52 @@ const nine = document.querySelector("#nine");
 const zero = document.querySelector("#zero");
 const decimal = document.querySelector("#decimal");
 
+const padDigits = document.querySelectorAll(".operand");
+
 
 // NON-DOM VARIABLES
 
-// let valueOne = inputNumbers[inputNumbers.length-2]
-// let valueTwo = inputNumbers[inputNumbers.length-1]
-// let latestOperator;
+let valueOne;
+let valueTwo;
+let latestOperator;
 let displayInput = "";
-// let inputNumbers = [];
-// let displayCalc = []
-// let result;
+let inputNumbers = [];
+let displayCalc = []
+let result;
 let decimalEntered = false;
 let commaAsThousandSeparator = false;
 let dotAsDecimalSeparator = false;
+const displayMaxDigit = 12;
+const numDigitsReduceFontsize = 8;
 
-
-// ENABLE SLIDER/RANGE FEATURES
-
-// let enableThousandSeparator = () => {
-//     if (sliderThousandSeparator.value === "1") {
-//         sliderThousandSeparator.style.backgroundColor = "#17C150";
-//     } else {
-//         sliderThousandSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
-//     }
-// };
-
-// sliderThousandSeparator.addEventListener("change", enableThousandSeparator);
 
 let enableDecimalSeparator = () => {
     if (sliderDecimalSeparator.value === "1") {
         sliderDecimalSeparator.style.backgroundColor = "#17C150";
         decimal.textContent = ".";
+        commaAsThousandSeparator = true;
+        dotAsDecimalSeparator = true;
         if (decimalEntered === true) {
             displayInput = displayInput.replace(",", ".");
         }
-        inputDisplay.textContent = displayInput;
-        commaAsThousandSeparator = true;
-        dotAsDecimalSeparator = true;
+        if (displayInput.length === 0) {
+            inputDisplay.textContent = 0 + displayInput;
+        } else {
+            inputDisplay.textContent = displayInput;
+        }
     } else {
         sliderDecimalSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
         decimal.textContent = ",";
+        commaAsThousandSeparator = false;
+        dotAsDecimalSeparator = false;
         if (decimalEntered === true) {
             displayInput = displayInput.replace(".", ",");
         }
-        inputDisplay.textContent = displayInput;
-        commaAsThousandSeparator = false;
-        dotAsDecimalSeparator = false;
+        if (displayInput.length === 0) {
+            inputDisplay.textContent = 0 + displayInput;
+        } else {
+            inputDisplay.textContent = displayInput;
+        }
     }
 };
 
@@ -88,31 +88,31 @@ sliderDecimalSeparator.addEventListener("change" ,enableDecimalSeparator);
 
 let populateDisplay = (e) => {
     let target = e.target;
-
     displayInput += target.textContent;
-    console.log(displayInput);
     
-    if (displayInput.startsWith("," || ".")) {  // Inserts leading zero if first input is "." or ","
+    if (displayInput.startsWith(",") || displayInput.startsWith(".")) {  // Inserts leading zero if first input is "." or ","
         displayInput = "0" + displayInput;
     }
     
-    if (displayInput.startsWith("0")) {         // Only one leading zero allowed
+    if (displayInput.startsWith("0")) {             // Only one leading zero allowed
         zero.style.pointerEvents = "none";
     }
 
-    if (displayInput.includes("," || ".")) {    // Only one decimal allowed
+    if (displayInput.includes(",") || displayInput.includes(".")) {    // Only one decimal allowed
         decimal.style.pointerEvents = "none";
+        decimalEntered = true;
     }
 
-    if (displayInput.length > 8) {
-        inputDisplay.style.fontSize = "1.5rem";
+    if (displayInput.length > numDigitsReduceFontsize) {      // Shrinks fontsize in display with large number
+        inputDisplay.style.fontSize = "2rem";
     }
 
-
-    
+    if (displayInput.length >= displayMaxDigit) {
+        padDigits.forEach(button => {
+            button.style.pointerEvent = "none";
+        })
+    }
     inputDisplay.textContent = displayInput;
-
-    
 };
 
 one.addEventListener("click", populateDisplay);
@@ -129,6 +129,52 @@ decimal.addEventListener("click", populateDisplay);
 
 
 // DELETE DIGITS FROM DISPLAY
+
+let deleteDigit = () => {
+    if (displayInput.length > 0) {
+        displayInput = displayInput.slice(0, -1);
+    }
+
+    if (displayInput.includes(",") || displayInput.includes(".")) {    // Only one decimal allowed
+        decimal.style.pointerEvents = "none";
+        decimalEntered = true;
+    } else if (!displayInput.includes(",") || !displayInput.includes(".")) {
+        decimal.style.pointerEvents = "auto";
+        decimalEntered = false;
+    }
+
+    if (displayInput.length <= numDigitsReduceFontsize) {        // Increases fontsize in display when deleting down to certain number of digits
+        inputDisplay.style.fontSize = "3rem";
+    }
+
+    if (displayInput.length === 0) {                    // Inserts zero in display when display string is empty
+        inputDisplay.textContent = 0 + displayInput;
+    } else {
+        inputDisplay.textContent = displayInput;
+    }
+};
+
+deleteIcon.addEventListener("click", deleteDigit);
+
+
+
+// CLEAR MEMORY AND RESET CALCULATOR
+
+let clearMemory = () => {
+    displayInput = "";
+    inputDisplay.textContent = 0 + displayInput
+    decimalEntered = false;
+    decimal.style.pointerEvents = "auto";
+    valueOne;
+    valueTwo;
+    latestOperator;
+    inputNumbers = [];
+    displayCalc = [];
+    result;    
+};
+
+clearAll.addEventListener("click", clearMemory);
+
 
 
 // MATH OPERATIONS
