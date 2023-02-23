@@ -34,6 +34,8 @@ const decimal = document.querySelector("#decimal");
 
 const padDigits = document.querySelectorAll(".operand");
 
+const userMessage = document.querySelector(".user-message");
+
 
 // NON-DOM VARIABLES
 
@@ -118,6 +120,7 @@ let populateDisplay = (e) => {
         padDigits.forEach(button => {
             button.style.pointerEvents = "none";
         })
+        userMessage.textContent = "Maximum number of digits reached"
     }
     inputDisplay.textContent = displayInput;
     console.log(displayInput);
@@ -130,19 +133,23 @@ let insertMinusInDisplay = () => {
         displayInput = "-" + displayInput;
     }
     inputDisplay.textContent = displayInput;
-}
+};
 
-one.addEventListener("click", populateDisplay);
-two.addEventListener("click", populateDisplay);
-three.addEventListener("click", populateDisplay);
-four.addEventListener("click", populateDisplay);
-five.addEventListener("click", populateDisplay);
-six.addEventListener("click", populateDisplay);
-seven.addEventListener("click", populateDisplay);
-eight.addEventListener("click", populateDisplay);
-nine.addEventListener("click", populateDisplay);
-zero.addEventListener("click", populateDisplay);
-decimal.addEventListener("click", populateDisplay);
+// one.addEventListener("click", populateDisplay);
+// two.addEventListener("click", populateDisplay);
+// three.addEventListener("click", populateDisplay);
+// four.addEventListener("click", populateDisplay);
+// five.addEventListener("click", populateDisplay);
+// six.addEventListener("click", populateDisplay);
+// seven.addEventListener("click", populateDisplay);
+// eight.addEventListener("click", populateDisplay);
+// nine.addEventListener("click", populateDisplay);
+// zero.addEventListener("click", populateDisplay);
+// decimal.addEventListener("click", populateDisplay);
+
+padDigits.forEach(pad => {
+    pad.addEventListener("click", populateDisplay)
+})
 
 plusMinus.addEventListener("click", insertMinusInDisplay);
 
@@ -158,6 +165,7 @@ let deleteDigit = () => {
         padDigits.forEach(button => {
             button.style.pointerEvents = "auto";
         })
+        userMessage.textContent = "";
     }
 
     if ((!displayInput.includes(",")) && (!displayInput.includes("."))) {    // Only one decimal allowed
@@ -223,7 +231,7 @@ let operate = (valueOne, valueTwo, operator) => {
     } else if (operator === "/") {
         divideFunction(valueOne, valueTwo);
     }
-}
+};
 
 
 
