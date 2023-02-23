@@ -2,7 +2,6 @@
 
 // DOM VARIABLES
 
-// const sliderThousandSeparator = document.querySelector("#thousand-sep");
 const sliderDecimalSeparator = document.querySelector("#decimal-sep");
 
 const deleteIcon = document.querySelector("#delete-icon");
@@ -33,19 +32,28 @@ const zero = document.querySelector("#zero");
 const decimal = document.querySelector("#decimal");
 
 const padDigits = document.querySelectorAll(".operand");
+const operators = document.querySelectorAll(".operator");
 
 const userMessage = document.querySelector(".user-message");
 
 
 // NON-DOM VARIABLES
 
-let valueOne;
-let valueTwo;
+// Variables for calculations
 let latestOperator;
 let displayInput = "";
 let inputNumbers = [];
 let displayCalc = []
+let valueOne;
+let valueTwo;
 let result;
+let additionSymbol = addition.textContent;
+let subtractionSymbol = subtraction.textContent;
+let multiplicationSymbol = multiplication.textContent;
+let divisionSymbol = division.textContent;
+let equalSymbol = equal.textContent;
+
+// Variables for displaying
 let decimalEntered = false;
 let commaAsThousandSeparator = false;
 let dotAsDecimalSeparator = false;
@@ -116,13 +124,14 @@ let populateDisplay = (e) => {
         inputDisplay.style.fontSize = fontSizeDisplayReduced;
     }
 
-    if (displayInput.length >= displayMaxDigit) {
+    if (displayInput.length >= displayMaxDigit) {       // Disable input pad if display is full and throw user message
         padDigits.forEach(button => {
             button.style.pointerEvents = "none";
         })
         userMessage.textContent = "Maximum number of digits reached"
     }
     inputDisplay.textContent = displayInput;
+    //displayInput = Number(displayInput);
     console.log(displayInput);
 };
 
@@ -135,17 +144,6 @@ let insertMinusInDisplay = () => {
     inputDisplay.textContent = displayInput;
 };
 
-// one.addEventListener("click", populateDisplay);
-// two.addEventListener("click", populateDisplay);
-// three.addEventListener("click", populateDisplay);
-// four.addEventListener("click", populateDisplay);
-// five.addEventListener("click", populateDisplay);
-// six.addEventListener("click", populateDisplay);
-// seven.addEventListener("click", populateDisplay);
-// eight.addEventListener("click", populateDisplay);
-// nine.addEventListener("click", populateDisplay);
-// zero.addEventListener("click", populateDisplay);
-// decimal.addEventListener("click", populateDisplay);
 
 padDigits.forEach(pad => {
     pad.addEventListener("click", populateDisplay)
@@ -200,11 +198,10 @@ let clearMemory = () => {
     inputDisplay.style.fontSize = fontSizeDisplayNormal;
     decimalEntered = false;
     decimal.style.pointerEvents = "auto";
-    valueOne;
-    valueTwo;
     latestOperator;
     inputNumbers = [];
     displayCalc = [];
+    calculationDisplay.textContent = "0" + displayCalc;
     result;
     zero.style.pointerEvents = "auto";
 };
@@ -213,25 +210,82 @@ clearAll.addEventListener("click", clearMemory);
 
 
 
+
+
 // MATH OPERATIONS
 
-let additionFunction = (valueOne, valueTwo) => valueOne + valueTwo // addition
-let subtractFunction = (valueOne, valueTwo) => valueOne - valueTwo // subtraction
-let multiplyFunction = (valueOne, valueTwo) => valueOne * valueTwo // multiplication
-let divideFunction = (valueOne, valueTwo) => valueOne / valueTwo // division
-
+let convertArrayToNumbers = () => {
+    inputNumbers = inputNumbers.map(Number);
+    valueOne = inputNumbers[inputNumbers.length - 2];
+    valueTwo = inputNumbers[inputNumbers.length - 1]
+    console.log(inputNumbers);
+}
 
 let operate = (valueOne, valueTwo, operator) => {
-    if (operator === "+") {
-        additionFunction(valueOne, valueTwo);
-    } else if (operator === "-") {
-        subtractFunction(valueOne, valueTwo);
-    } else if (operator === "*") {
-        multiplyFunction(valueOne, valueTwo);
-    } else if (operator === "/") {
-        divideFunction(valueOne, valueTwo);
+    displayCalc.push(displayInput);
+    inputNumbers.push(displayInput);
+    inputDisplay.textContent = inputNumbers[inputNumbers.length - 1];
+    
+
+    if (inputNumbers.length < 2) {
+        displayCalc.push(operator);
+        calculationDisplay.textContent = displayCalc.join(" ");
+    } else {
+        convertArrayToNumbers();
+        if (operator === additionSymbol) {
+            latestOperator = additionSymbol;
+            displayCalc.push(latestOperator);
+            additionFunction(valueOne, valueTwo);
+            inputDisplay.textContent = result;
+
+        } else if (operator === subtractionSymbol) {
+            latestOperator = subtractionSymbol;
+            displayCalc.push(latestOperator);
+            subtractFunction(valueOne, valueTwo);
+            inputDisplay.textContent = result;
+
+        } else if (operator === multiplicationSymbol) {
+            latestOperator = multiplicationSymbol;
+            displayCalc.push(latestOperator);
+            multiplyFunction(valueOne, valueTwo);
+            inputDisplay.textContent = result;
+
+        } else if (operator === divisionSymbol) {
+            latestOperator = divisionSymbol;
+            displayCalc.push(latestOperator);
+            divideFunction(valueOne, valueTwo);
+            inputDisplay.textContent = result;
+
+        } else if (operator === equalSymbol) {
+            latestOperator = equalSymbol;
+            displayCalc.push(latestOperator);
+            inputDisplay.textContent = result;
+        }
     }
+
+
+    displayInput = "";
+    decimalEntered = false;
+    decimal.style.pointerEvents = "auto";
+    calculationDisplay.textContent = displayCalc.join(" ");
+    console.log(latestOperator);
+    console.log(valueOne);
+    console.log(valueTwo);
+    console.log(result);
+    console.log(displayCalc);
+    console.log(inputNumbers);
 };
+
+let additionFunction = (valueOne, valueTwo) => result = valueOne + valueTwo // addition
+let subtractFunction = (valueOne, valueTwo) => result = valueOne - valueTwo // subtraction
+let multiplyFunction = (valueOne, valueTwo) => result = valueOne * valueTwo // multiplication
+let divideFunction = (valueOne, valueTwo) => result = valueOne / valueTwo // division
+
+
+operators.forEach(operator => {
+    // operator.addEventListener("click", convertArrayToNumbers);
+    operator.addEventListener("click", function () {operate(valueOne, valueTwo, operator.textContent)});
+})
 
 
 
