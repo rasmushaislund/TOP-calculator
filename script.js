@@ -65,7 +65,7 @@ let enableDecimalSeparator = () => {
             displayInput = displayInput.replace(",", ".");
         }
         if (displayInput.length === 0) {
-            inputDisplay.textContent = 0 + displayInput;
+            inputDisplay.textContent = "0" + displayInput;
         } else {
             inputDisplay.textContent = displayInput;
         }
@@ -78,7 +78,7 @@ let enableDecimalSeparator = () => {
             displayInput = displayInput.replace(".", ",");
         }
         if (displayInput.length === 0) {
-            inputDisplay.textContent = 0 + displayInput;
+            inputDisplay.textContent = "0" + displayInput;
         } else {
             inputDisplay.textContent = displayInput;
         }
@@ -98,13 +98,16 @@ let populateDisplay = (e) => {
         displayInput = "0" + displayInput;
     }
     
-    if (displayInput.startsWith("0")) {             // Only one leading zero allowed
+    if (displayInput.startsWith("0,")) {            //  Zero allowed when trailing "0,"
+        zero.style.pointerEvents = "auto";
+    } else if (displayInput.startsWith("0")) {      // Only one leading zero allowed
         zero.style.pointerEvents = "none";
     }
 
     if (displayInput.includes(",") || displayInput.includes(".")) {    // Only one decimal allowed
-        decimal.style.pointerEvents = "none";
         decimalEntered = true;
+        decimal.style.pointerEvents = "none";
+        console.log(decimalEntered);
     }
 
     if (displayInput.length > numDigitsReduceFontSize) {      // Shrinks fontsize in display with large number
@@ -117,6 +120,7 @@ let populateDisplay = (e) => {
         })
     }
     inputDisplay.textContent = displayInput;
+    console.log(displayInput);
 };
 
 let insertMinusInDisplay = () => {
@@ -146,20 +150,8 @@ plusMinus.addEventListener("click", insertMinusInDisplay);
 // DELETE DIGITS FROM DISPLAY
 
 let deleteDigit = () => {
-    if (displayInput.length > 0) {
+    if (displayInput.length > 0) {                  // Remove right-most digit from display string
         displayInput = displayInput.slice(0, -1);
-    }
-
-    if (displayInput.includes(",") || displayInput.includes(".")) {    // Only one decimal allowed
-        decimal.style.pointerEvents = "none";
-        decimalEntered = true;
-    } else if (!displayInput.includes(",") || !displayInput.includes(".")) {
-        decimal.style.pointerEvents = "auto";
-        decimalEntered = false;
-    }
-
-    if (displayInput.length <= numDigitsReduceFontSize) {        // Increases fontsize in display when deleting down to certain number of digits
-        inputDisplay.style.fontSize = fontSizeDisplayNormal;
     }
 
     if (displayInput.length < displayMaxDigit) {
@@ -168,8 +160,21 @@ let deleteDigit = () => {
         })
     }
 
+    if ((!displayInput.includes(",")) && (!displayInput.includes("."))) {    // Only one decimal allowed
+        decimalEntered = false;
+        decimal.style.pointerEvents = "auto"
+    }
+
+    if (decimalEntered === true) {
+        decimal.style.pointerEvents = "none"
+    }
+
+    if (displayInput.length <= numDigitsReduceFontSize) {        // Increases fontsize in display when deleting down to certain number of digits
+        inputDisplay.style.fontSize = fontSizeDisplayNormal;
+    }
+
     if (displayInput.length === 0) {                    // Inserts zero in display when display string is empty
-        inputDisplay.textContent = 0 + displayInput;
+        inputDisplay.textContent = "0" + displayInput;
     } else {
         inputDisplay.textContent = displayInput;        // Else, shows content of display string
     }
@@ -183,7 +188,7 @@ deleteIcon.addEventListener("click", deleteDigit);
 
 let clearMemory = () => {
     displayInput = "";
-    inputDisplay.textContent = 0 + displayInput
+    inputDisplay.textContent = "0" + displayInput
     inputDisplay.style.fontSize = fontSizeDisplayNormal;
     decimalEntered = false;
     decimal.style.pointerEvents = "auto";
@@ -192,7 +197,8 @@ let clearMemory = () => {
     latestOperator;
     inputNumbers = [];
     displayCalc = [];
-    result;   
+    result;
+    zero.style.pointerEvents = "auto";
 };
 
 clearAll.addEventListener("click", clearMemory);
