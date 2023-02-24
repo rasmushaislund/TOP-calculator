@@ -215,71 +215,41 @@ clearAll.addEventListener("click", clearMemory);
 // MATH OPERATIONS
 
 let convertArrayToNumbers = () => {
-    inputNumbers = inputNumbers.map(Number);
-    valueOne = inputNumbers[inputNumbers.length - 2];
-    valueTwo = inputNumbers[inputNumbers.length - 1]
-    console.log(inputNumbers);
 }
 
 let operate = (valueOne, valueTwo, operator) => {
-    displayCalc.push(displayInput);
-    inputNumbers.push(displayInput);
-    inputDisplay.textContent = inputNumbers[inputNumbers.length - 1];
     
+    if (operator === additionSymbol) {
+        latestOperator = additionSymbol;
+        displayCalc.push(latestOperator);
+        additionFunction(valueOne, valueTwo);
 
-    if (inputNumbers.length < 2) {
-        displayCalc.push(operator);
-        calculationDisplay.textContent = displayCalc.join(" ");
-    } else {
-        convertArrayToNumbers();
-        if (operator === additionSymbol) {
-            latestOperator = additionSymbol;
-            displayCalc.push(latestOperator);
-            additionFunction(valueOne, valueTwo);
-            inputDisplay.textContent = result;
+    } else if (operator === subtractionSymbol) {
+        latestOperator = subtractionSymbol;
+        displayCalc.push(latestOperator);
+        subtractFunction(valueOne, valueTwo);
 
-        } else if (operator === subtractionSymbol) {
-            latestOperator = subtractionSymbol;
-            displayCalc.push(latestOperator);
-            subtractFunction(valueOne, valueTwo);
-            inputDisplay.textContent = result;
+    } else if (operator === multiplicationSymbol) {
+        latestOperator = multiplicationSymbol;
+        displayCalc.push(latestOperator);
+        multiplyFunction(valueOne, valueTwo);
 
-        } else if (operator === multiplicationSymbol) {
-            latestOperator = multiplicationSymbol;
-            displayCalc.push(latestOperator);
-            multiplyFunction(valueOne, valueTwo);
-            inputDisplay.textContent = result;
+    } else if (operator === divisionSymbol) {
+        latestOperator = divisionSymbol;
+        displayCalc.push(latestOperator);
+        divideFunction(valueOne, valueTwo);
 
-        } else if (operator === divisionSymbol) {
-            latestOperator = divisionSymbol;
-            displayCalc.push(latestOperator);
-            divideFunction(valueOne, valueTwo);
-            inputDisplay.textContent = result;
-
-        } else if (operator === equalSymbol) {
-            latestOperator = equalSymbol;
-            displayCalc.push(latestOperator);
-            inputDisplay.textContent = result;
-        }
+    } else if (operator === equalSymbol) {
+        latestOperator = equalSymbol;
+        displayCalc.push(latestOperator);
     }
-
-
-    displayInput = "";
-    decimalEntered = false;
-    decimal.style.pointerEvents = "auto";
-    calculationDisplay.textContent = displayCalc.join(" ");
-    console.log(latestOperator);
-    console.log(valueOne);
-    console.log(valueTwo);
-    console.log(result);
-    console.log(displayCalc);
-    console.log(inputNumbers);
 };
 
-let additionFunction = (valueOne, valueTwo) => result = valueOne + valueTwo // addition
-let subtractFunction = (valueOne, valueTwo) => result = valueOne - valueTwo // subtraction
-let multiplyFunction = (valueOne, valueTwo) => result = valueOne * valueTwo // multiplication
-let divideFunction = (valueOne, valueTwo) => result = valueOne / valueTwo // division
+
+let additionFunction = (a, b) => result = a + b // addition
+let subtractFunction = (a, b) => result = a - b // subtraction
+let multiplyFunction = (a, b) => result = a * b // multiplication
+let divideFunction = (a, b) => result = a / b // division
 
 
 operators.forEach(operator => {
