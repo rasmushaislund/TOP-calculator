@@ -71,26 +71,35 @@ let enableDecimalSeparator = () => {
         decimal.textContent = ".";
         commaAsThousandSeparator = true;
         dotAsDecimalSeparator = true;
-        if (decimalEntered === true) {
+        
+        if (decimalEntered === true && displayInput.length > 0) {
             displayInput = displayInput.replace(",", ".");
-        }
-        if (displayInput.length === 0) {
-            inputDisplay.textContent = "0" + displayInput;
-        } else {
             inputDisplay.textContent = displayInput;
         }
+
+        if (displayCalc.length > 0) {
+        displayCalc = displayCalc.join(" ");
+        displayCalc = displayCalc.replaceAll(",", ".")
+        displayCalc = displayCalc.split(" ");
+        calculationDisplay.textContent = displayCalc.join(" ");
+        }
+
     } else {
         sliderDecimalSeparator.style.backgroundColor = "rgba(255, 255, 255, .3)";
         decimal.textContent = ",";
         commaAsThousandSeparator = false;
         dotAsDecimalSeparator = false;
+        
         if (decimalEntered === true) {
             displayInput = displayInput.replace(".", ",");
-        }
-        if (displayInput.length === 0) {
-            inputDisplay.textContent = "0" + displayInput;
-        } else {
             inputDisplay.textContent = displayInput;
+        }
+       
+        if (displayCalc.length > 0) {
+        displayCalc = displayCalc.join(" ");
+        displayCalc = displayCalc.replaceAll(".", ",")
+        displayCalc = displayCalc.split(" ");
+        calculationDisplay.textContent = displayCalc.join(" ");
         }
     }
 };
@@ -131,6 +140,7 @@ let populateDisplay = (e) => {
         userMessage.textContent = "Maximum number of digits reached"
     }
     inputDisplay.textContent = displayInput;
+    deleteIcon.style.pointerEvents = "auto";
     console.log(displayInput);
 };
 
@@ -235,12 +245,16 @@ let operate = (valueOne, valueTwo, operator) => {
         if (inputNumbers.length >= 2) {
         additionFunction(valueOne, valueTwo);
         displayInput = result;
-        displayInput = displayInput.toString();
-        if (displayInput.includes(".")) {
+        displayInput = displayInput.toString(); 
+        displayCalc = [];
+        displayCalc.push(result);
+        displayCalc.push(latestOperator);
+        if (displayInput.includes(".") && dotAsDecimalSeparator === false) {
             displayInput = displayInput.replace(".", ",");
         }
         inputNumbers.push(result);
         inputDisplay.textContent = displayInput;
+        deleteIcon.style.pointerEvents = "none";
         }
 
     } else if (operator === subtractionSymbol) {
