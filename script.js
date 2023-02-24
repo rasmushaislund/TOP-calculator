@@ -131,7 +131,6 @@ let populateDisplay = (e) => {
         userMessage.textContent = "Maximum number of digits reached"
     }
     inputDisplay.textContent = displayInput;
-    //displayInput = Number(displayInput);
     console.log(displayInput);
 };
 
@@ -215,14 +214,34 @@ clearAll.addEventListener("click", clearMemory);
 // MATH OPERATIONS
 
 let convertArrayToNumbers = () => {
+    inputNumbers = inputNumbers.join(" ");
+    inputNumbers = inputNumbers.replaceAll(",", ".");
+    inputNumbers = inputNumbers.split(" ");
+    inputNumbers = inputNumbers.map(Number);
 }
 
 let operate = (valueOne, valueTwo, operator) => {
+    inputNumbers.push(displayInput);
+    displayCalc.push(displayInput)
+    convertArrayToNumbers();
+    displayInput = "";
+    decimal.style.pointerEvents = "auto";
+    valueOne = inputNumbers[inputNumbers.length - 2];
+    valueTwo = inputNumbers[inputNumbers.length - 1];
     
     if (operator === additionSymbol) {
         latestOperator = additionSymbol;
         displayCalc.push(latestOperator);
+        if (inputNumbers.length >= 2) {
         additionFunction(valueOne, valueTwo);
+        displayInput = result;
+        displayInput = displayInput.toString();
+        if (displayInput.includes(".")) {
+            displayInput = displayInput.replace(".", ",");
+        }
+        inputNumbers.push(result);
+        inputDisplay.textContent = displayInput;
+        }
 
     } else if (operator === subtractionSymbol) {
         latestOperator = subtractionSymbol;
@@ -243,6 +262,18 @@ let operate = (valueOne, valueTwo, operator) => {
         latestOperator = equalSymbol;
         displayCalc.push(latestOperator);
     }
+ 
+    
+
+    displayInput = "";
+    calculationDisplay.textContent = displayCalc.join(" ");
+
+    console.log(inputNumbers);
+    console.log(latestOperator);
+    console.log(displayCalc);
+    console.log(valueOne);
+    console.log(valueTwo);
+    console.log(result);
 };
 
 
@@ -253,12 +284,8 @@ let divideFunction = (a, b) => result = a / b // division
 
 
 operators.forEach(operator => {
-    // operator.addEventListener("click", convertArrayToNumbers);
     operator.addEventListener("click", function () {operate(valueOne, valueTwo, operator.textContent)});
 })
-
-
-
 
 
 
